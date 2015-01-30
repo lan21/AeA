@@ -1,7 +1,10 @@
 package adn;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
+
+import algorithme.KMP;
 
 public class ADN {
 	private char[] brin;
@@ -47,7 +50,7 @@ public class ADN {
 					comp[i] = 'G';
 					break;
 				default:
-					throw new Exception();
+					throw new Exception("ADN non conforme");
 			}
 		}
 		return comp;
@@ -111,8 +114,24 @@ public class ADN {
 	 * retourne la liste des indices d'occurence de cet adn dans la séquence d'adn
 	 * @param sequence
 	 * @return
+	 * @throws Exception 
 	 */
-	public List<Integer> occurence(ADN sequence){
-		return null;
+	public List<Integer> occurence(ADN sequence) throws Exception{
+		List<Integer> occurence = new LinkedList<Integer>();
+		String brin = new String(this.brin);
+		String reverse = new String(this.brin_reverse());
+		String complementaire = new String(this.complementaire());
+		String reverseComplementaire = new String(this.reverse_complementaire());
+		
+		String laSequence = new String(sequence.brin);
+		
+		occurence.addAll(KMP.listeIndiceOccurence(brin,laSequence));
+		if(!reverse.equals(brin))
+			occurence.addAll(KMP.listeIndiceOccurence(reverse,laSequence));
+		if((!complementaire.equals(brin))&&(!complementaire.equals(reverse)))
+			occurence.addAll(KMP.listeIndiceOccurence(complementaire,laSequence));
+		if((!reverseComplementaire.equals(brin))&&(!reverseComplementaire.equals(reverse))&&(!reverseComplementaire.equals(complementaire)))
+			occurence.addAll(KMP.listeIndiceOccurence(reverseComplementaire,laSequence));		
+		return occurence;
 	}
 }

@@ -1,7 +1,7 @@
 package algorithme;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -17,7 +17,7 @@ public class KMP {
 		int m = motif.length();
 		int n = texte.length();
 		int next[] = KMP.next(motif);
-		List<Integer> listeOccurence = new LinkedList<Integer>();
+		List<Integer> listeOccurence = new ArrayList<Integer>();
 		if (m==0){
 			return listeOccurence;
 		}
