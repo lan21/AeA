@@ -54,9 +54,8 @@ public class ReadAdnFasta {
 					for (int j : occurences) {
 						matched[j] = true;
 					}
-					System.out.println(occurences);
-					//printDotForOccurenciesList(occurences);
-					
+					//System.out.println(occurences);
+					printDotForOccurenciesList(occurences);					
 				}
 			}
 		
