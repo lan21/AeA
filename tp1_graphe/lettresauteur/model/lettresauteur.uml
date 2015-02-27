@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_h8P5oJgKEeSleqOdojv4rg" name="model">
+  <packagedElement xmi:type="uml:Class" xmi:id="_jtktUJgKEeSleqOdojv4rg" name="Mot">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_HMHpkJgLEeSleqOdojv4rg" name="Attribute1"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_k9bysJgKEeSleqOdojv4rg" name="Graphe">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_sXODsJgKEeSleqOdojv4rg" name="mots" type="_jtktUJgKEeSleqOdojv4rg" aggregation="composite" association="_sXOqwJgKEeSleqOdojv4rg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sXODsZgKEeSleqOdojv4rg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sXODspgKEeSleqOdojv4rg" value="*"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_sXOqwJgKEeSleqOdojv4rg" memberEnd="_sXOqwZgKEeSleqOdojv4rg _sXODsJgKEeSleqOdojv4rg">
+    <ownedEnd xmi:type="uml:Property" xmi:id="_sXOqwZgKEeSleqOdojv4rg" name="graphe" type="_k9bysJgKEeSleqOdojv4rg" association="_sXOqwJgKEeSleqOdojv4rg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sXOqwpgKEeSleqOdojv4rg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sXOqw5gKEeSleqOdojv4rg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Model>
