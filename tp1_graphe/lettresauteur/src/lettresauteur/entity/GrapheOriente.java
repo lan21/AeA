@@ -1,6 +1,6 @@
 package lettresauteur.entity;
 
-public class GrapheOriente extends Graphe2 {
+public class GrapheOriente extends Graphe {
 	int sup;
 	int dif;
 
@@ -11,10 +11,10 @@ public class GrapheOriente extends Graphe2 {
 	}
 	
 	
-	static void lettreQuiSaute(Graphe2 g) {
-		for (int i = 0; i < g.nb; i++) {
-			for (int j = 0; j < g.nb; j++) {
-				if (Graphe2.diffUneLettre(g.mot[i], g.mot[j]))
+	static void lettreQuiSaute(Graphe g) {
+		for (int i = 0; i < g.nbSommets; i++) {
+			for (int j = 0; j < g.nbSommets; j++) {
+				if (Graphe.diffUneLettre(g.mot[i], g.mot[j]))
 					ajouterArc(g, i, j);
 			}
 		}
