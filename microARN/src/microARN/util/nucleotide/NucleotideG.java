@@ -1,10 +1,12 @@
 package microARN.util.nucleotide;
 
-public class NucleotideG implements Nucleotide {
+public class NucleotideG extends Nucleotide {
 
 	public static Nucleotide instance = new NucleotideG();
 	
-	private NucleotideG(){}
+	private NucleotideG(){
+		super("G");
+	}
 
 	@Override
 	public Nucleotide getCanonicalComplement() {
@@ -15,10 +17,6 @@ public class NucleotideG implements Nucleotide {
 	public Nucleotide getNonCanonicalComplement() {
 		return NucleotideU.instance;
 	}
-	
-	@Override
-	public String toString() {
-		return "G";
-	}
+
 
 }
