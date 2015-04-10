@@ -34,11 +34,7 @@ public class Prim implements Algo{
 	public void findMST() {
 		int nbVertices = graph.getVertices().size();
 		MinHeap<VertexLink> vertexHeap = new MinHeap<VertexLink>(nbVertices);
-		for (int i = 0; i < nbVertices; i++) {
-			vertexHeap.ajouter(new VertexLink(i,0));
-		}
-		//met à jour la heap
-		vertexHeap.changeValue(new VertexLink(0), new VertexLink(0,0,0));
+		vertexHeap.ajouter(new VertexLink(0,0,0));
 		while(true){
 			int vertexMinNumber = vertexHeap.retirerRacine().getVertexNumber();
 			Vertex v = graph.getVertex(vertexMinNumber);
@@ -46,6 +42,7 @@ public class Prim implements Algo{
 			for(Map.Entry<Integer, Integer> adjacency : v.getAdjacency().entrySet()){
 				int vertexNumber = adjacency.getKey();
 				int distance = adjacency.getValue();
+				
 			}
 		}
 		
