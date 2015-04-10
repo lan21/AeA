@@ -1,157 +1,237 @@
 package Algorithm;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Iterator;
 
-public class MinHeap<T extends Comparable<T>> {
-	private ArrayList<T> tas;
-	
-	public MinHeap(int size){
-		this.tas = new ArrayList<T>(size);
-	}
-	
-	/**
-	 * construit un tas à partir d'une liste d'élément
-	 * @param elements
-	 */
-	public MinHeap(List<T> elements){
-		this.tas = new ArrayList<T>(elements.size());
-		for(T element:elements){
-			this.ajouter(element);
-		}
-	}
-	
-	public MinHeap(){
-		this.tas = new ArrayList<T>();
-	}
-	
-	/**
-	 * ajout un élément au tas
-	 * @param element
-	 */
-	public void ajouter(T element){
-		this.tas.add(element);
-		percolationUp(this.tas.size()-1);
-	}
-	
-	/**
-	 * Retire la racine du tas et le renvoie
-	 * @return Le minimum dans le tas
-	 */
-	public T retirerRacine(){
-		T element = this.tas.get(0);
-		this.tas.set(0, this.tas.get(this.tas.size()-1));
-		this.tas.remove(this.tas.size()-1);
-		if(this.tas.size()>0){
-			percolationDown(0);
-		}
-		return element;		
-	}
-	
-	/**
-	 * Retire un élément du tas et le renvoie
-	 * @param 
-	 * @return L'élément retiré du tas
-	 */
-	public T retirer(T element){
-		int index = this.tas.indexOf(element);
-		this.tas.set(index, this.tas.get(this.tas.size()-1));
-		this.tas.remove(this.tas.size()-1);
-		if(this.tas.size()>0){
-			percolationDown(index);
-		}
-		return element;
-	}
-	
-	public void changeValue(T ancientValue,T newValue){
-		this.retirer(ancientValue);
-		this.ajouter(newValue);
-	}
-	
-	/**
-	 * permet de remonter un noeud tant qu'il est inférieur à son père
-	 * Le père d'un noeud est toujours à l'indice (indiceElement-1)/2
-	 */
-	private void percolationUp(int indiceElement){
-		T element = this.tas.get(indiceElement);
-		int indicePere;
-		while(indiceElement>0){
-			indicePere = (indiceElement-1)/2;
-			T pere = this.tas.get(indicePere);
-			if(element.compareTo(pere)<0){
-				this.tas.set(indiceElement, pere);
-				indiceElement = indicePere;
-			}
-			else{
-				break;
-			}
-		}
-		this.tas.set(indiceElement, element);
-	}
-	
-	/**
-	 * permet de descendre un noeud tant qu'il est supérieur à son fils
-	 * Les fils sont toujours à l'indice 2*indiceElement+1 et 2*indiceElement+2
-	 */
-	private void percolationDown(int indiceElement){
-		T element = this.tas.get(indiceElement);
-		int indiceFils1;
-		int indiceFils2;
-		indiceFils1 = 2*indiceElement+1;
-		indiceFils2 = 2*indiceElement+2;
-		//tant que l'élément a un fils
-		while(indiceFils1<this.tas.size()&&indiceFils2<this.tas.size()){			
-			T fils1 = this.tas.get(indiceFils1);
-			T fils2 = this.tas.get(indiceFils2);
-			if(fils1.compareTo(fils2)<0 && element.compareTo(fils1)>0){
-				this.tas.set(indiceElement, fils1);
-				indiceElement = indiceFils1;
-			}
-			else if(fils2.compareTo(fils1)<0 && element.compareTo(fils2)>0){
-				this.tas.set(indiceElement, fils2);
-				indiceElement = indiceFils2;
-			}
-			else
-				break;
-			indiceFils1 = 2*indiceElement+1;
-			indiceFils2 = 2*indiceElement+2;
-		}
-		//si l'élément n'a qu'un fils
-		if(indiceFils1<this.tas.size()){
-			T fils1 = this.tas.get(indiceFils1);
-			if(element.compareTo(fils1)>0){
-				this.tas.set(indiceElement, fils1);
-				indiceElement = indiceFils1;
-			}
-		}
-		this.tas.set(indiceElement, element);
+public class MinHeap<T> implements Collection<T> {
+
+	private ArrayList<MinHeapNode<T>> nodes;
+
+	public MinHeap() {
+		this.nodes = new ArrayList<MinHeapNode<T>>();
 	}
 
-	public ArrayList<T> getTas() {
-		return tas;
+	public MinHeap(int size) {
+		this.nodes = new ArrayList<MinHeapNode<T>>(size);
 	}
-	
+
+	public MinHeap(Collection<T> c) {
+		this.nodes = new ArrayList<MinHeapNode<T>>(c.size());
+		this.addAll(c);
+	}
+
 	/**
-	 * retrun the minimum without removing it from the structure
-	 * @return the minimum
-	 */
-	public T min(){
-		return this.tas.get(0);
-	}
-	
-	public void clear(){
-		this.tas.clear();
-	}
-	
-	/**
+	 * Returns the number of elements in this heap
 	 * 
-	 * @return true if empty, false otherwise
+	 * @return the number of elements in this heap
 	 */
-	public boolean isEmpty(){
-		return this.tas.size()==0;
+	@Override
+	public int size() {
+		return nodes.size();
 	}
-	
-	public boolean contains(Object element){
-		return tas.contains(element);
+
+	/**
+	 * Returns true if this heap doesn't contain any element.
+	 * 
+	 * @return true if this heap is empty
+	 */
+	@Override
+	public boolean isEmpty() {
+		return this.nodes.isEmpty();
 	}
+
+	/**
+	 * Returns true if this heap contains the specified element. More formally,
+	 * returns true if and only if this heap contains at least one element e
+	 * such that (o==null ? e==null : o.equals(e)).
+	 * 
+	 * @param o
+	 *            element whose presence in this heap is to be tested.
+	 * @return true if this list contains the specified element
+	 */
+	@Override
+	public boolean contains(Object o) {
+		return this.nodes.contains(o);
+	}
+
+	/**
+	 * Inserts all elements in the specified collection into this heap
+	 * 
+	 * @param c
+	 *            collections containing the elements to be removed
+	 * @return true if all elements have been added successfully
+	 */
+	@Override
+	public boolean addAll(Collection<? extends T> c) {
+		try {
+			for (T object : c) {
+				this.add(object);
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+
+	/**
+	 * Removes all elements in the specified collection from this heap
+	 * 
+	 * @param c
+	 *            collections containing the elements to be removed
+	 * @return true if all elements have been removed
+	 */
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		try {
+			for (Object object : c) {
+				this.remove(object);
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Removes all the elements in this heap
+	 */
+	@Override
+	public void clear() {
+		this.nodes.clear();
+	}
+
+	/**
+	 * Insert the specified element into this heap
+	 * 
+	 * @param e
+	 *            element to be added to this heap
+	 * @param value
+	 *            the value of this element in the heap
+	 * @return true if this collection changed as a result of the call
+	 */
+	public boolean add(T e, int value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * Insert the specified element into this heap
+	 * 
+	 * @param e
+	 *            element to be added to this heap
+	 * @param value
+	 *            the value of this element in the heap
+	 * @return true if this collection changed as a result of the call
+	 */
+	@Override
+	public boolean add(T e) {
+		return false;
+	}
+
+	/**
+	 * Removes the first occurrence of the specified element from this list, if
+	 * it is present. If the list does not contain the element, it is unchanged.
+	 * More formally, removes the element with the lowest index i such that
+	 * (o==null ? get(i)==null : o.equals(get(i))) (if such an element exists).
+	 * Returns true if this list contained the specified element (or
+	 * equivalently, if this list changed as a result of the call).
+	 * 
+	 * @param o
+	 *            element to be removed from this list, if present
+	 * @return true if this list contained the specified element
+	 */
+	@Override
+	public boolean remove(Object o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * Retrieves and removes the head of this heap, or returns null if this heap
+	 * is empty.
+	 * 
+	 * @return the head of this heap
+	 */
+	public T poll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Retrieves but does not remove the head of this heap
+	 */
+	public T peek() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * Represents a node in the heap. It contains the element held by the node
+	 * and its value
+	 * 
+	 * @author rakotoarivony
+	 * 
+	 * @param <T>
+	 */
+	private class MinHeapNode<T> implements Comparable<MinHeapNode<T>> {
+
+		T key;
+		int value;
+
+		public MinHeapNode(T key, int value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		@Override
+		public int compareTo(MinHeapNode<T> o) {
+			return ((Integer) this.value).compareTo(o.value);
+		}
+
+		public int getValue() {
+			return value;
+		}
+
+		/**
+		 * Sets the value of this node in the heap
+		 * 
+		 * @param value
+		 */
+		public void setValue(int value) {
+			this.value = value;
+		}
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object[] toArray() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
