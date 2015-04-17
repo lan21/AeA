@@ -338,6 +338,7 @@ public class MinHeap<T> implements Collection<T> {
 					this.percolationDown(index);
 				}
 			}
+			return true;
 		}
 		return false;
 	}

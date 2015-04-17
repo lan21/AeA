@@ -1,8 +1,10 @@
 package Algorithm;
 
+import graph.Itf.Edge;
 import graph.Itf.Graph;
 import graph.impl.EdgeImpl;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -17,7 +19,7 @@ import util.CycleManager;
  */
 public class Kruskal implements Algo {
 	private Graph graph;
-	private Set<EdgeImpl> result;
+	private Set<Edge> result;
 	private CycleManager cycleManger;
 
 	public Kruskal(Graph graph) {
@@ -34,7 +36,7 @@ public class Kruskal implements Algo {
 		return graph;
 	}
 
-	public Set<EdgeImpl> getResult() {
+	public Collection<Edge> getEdges() {
 		return result;
 	}
 
@@ -46,7 +48,7 @@ public class Kruskal implements Algo {
 		this.graph = graph;
 	}
 
-	public void setResult(Set<EdgeImpl> result) {
+	public void setResult(Set<Edge> result) {
 		this.result = result;
 	}
 
@@ -55,8 +57,8 @@ public class Kruskal implements Algo {
 	 * a green color
 	 */
 	public void printResult() {
-		for (EdgeImpl e : result) {
-			e.setMark(true);
+		for (Edge e : result) {
+			((EdgeImpl)e).setMark(true);
 		}
 		System.out.println(this.graph);
 	}
@@ -85,7 +87,7 @@ public class Kruskal implements Algo {
 	@Override
 	public String ResultToString() {
 		String s = "";
-		for (EdgeImpl e : result) {
+		for (Edge e : result) {
 			s += e.toString() + "\n";
 		}
 		return s;

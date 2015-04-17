@@ -1,6 +1,9 @@
 package Algorithm;
 
+import graph.Itf.Edge;
 import graph.Itf.Graph;
+
+import java.util.Collection;
 
 public interface Algo {
 
@@ -19,5 +22,11 @@ public interface Algo {
 	 * @return a string representing all selected edges by Kruskal algorithm
 	 */
 	public abstract String ResultToString();
+	
+	/**
+	 * 
+	 * @return the collection of edge computed by this algorithm
+	 */
+	public Collection<Edge> getEdges();
 
 }
